@@ -1,0 +1,41 @@
+// JavaScript functionality for Razorpay Clone
+
+// Function to handle form submission for contact form
+document.querySelector('form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Gather form data
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const message = document.getElementById('message').value;
+
+    // Create a JSON object to send
+    const data = {
+        name: name,
+        email: email,
+        message: message
+    };
+
+    // Send the data to the server
+    fetch('/contact', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        console.log('Response status:', response.status); // Log the response status
+        return response.json(); // Parse the JSON response
+    })
+    .then(data => {
+        console.log('Response data:', data); // Log the response data
+        if (data.message) {
+            alert(data.message); // Show success message
+            this.reset(); // Reset the form after successful submission
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
